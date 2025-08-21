@@ -13,7 +13,7 @@ module register_file(
 
 reg [63:0] registers [31:0];
 
-assign registers[0] = 64'b0;
+// assign registers[0] = 64'b0;
 
 assign ReadData1 = (rst == 1'b1 || ReadReg1 == 5'b0) ? 64'b0 : registers[ReadReg1];
 assign ReadData2 = (rst == 1'b1 || ReadReg2 == 5'b0) ? 64'b0 : registers[ReadReg2];

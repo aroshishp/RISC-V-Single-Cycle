@@ -1,18 +1,19 @@
 module control_unit_main(
     // input zero,
     input [6:0] opcode,
-    output branch,
+    output Branch,
     output MemRead,
     output MemtoReg,
     output [2:0] ALUOp,
     output MemWrite,
     output ALUSrc,
-    output RegWrite
+    output RegWrite,
+    output [1:0] Imm_Src
 );
 
-assign branch = (opcode == 7'b1100011) ? 1'b1 : 1'b0;
-assign MemRead = (opcode == 7'b0000011) ? 1'b1 : 1'b0;
-assign MemtoReg = (opcode == 7'b0000011) ? 1'b1 : 1'b0;
+assign branch = (opcode == 7'b1100011) ? 1'b1 : 1'b0; //B
+assign MemRead = (opcode == 7'b0000011) ? 1'b1 : 1'b0; //Load
+assign MemtoReg = (opcode == 7'b0000011) ? 1'b1 : 1'b0; //Load
 
 /*
 R type -> to be decoded
@@ -33,8 +34,13 @@ assign ALUOp =  (opcode == 7'b0110011) ? 3'b000 : //R
                 (opcode == 7'b0110111) ? 3'b110 : //lui, auipc
                 (opcode == 7'b1110011) ? 3'b111 : 3'bxxx; //ecall, ebreak
 
+assign Imm_Src = (opcode == 7'b0010011 || opcode == 7'b0000011) ? 2'b00 : // I
+                 (opcode == 7'b0100011) ? 2'b01 : // S
+                 (opcode == 7'b1100011) ? 2'b10 : // B
+                 (opcode == 7'b1101111) ? 2'b11 : 2'bxx; // J
 
-assign MemWrite = (opcode == 7'b0100011) ? 1'b1 : 1'b0;
-assign ALUSrc = (opcode == 7'b0010011 || opcode == 7'b0000011 || opcode == 7'b0100011) ? 1'b1 : 1'b0;
-assign RegWrite = (opcode == 7'b0100011 || opcode == 7'b1100011 || opcode == 7'b1110011) ? 1'b0 : 1'b1;
+
+assign MemWrite = (opcode == 7'b0100011) ? 1'b1 : 1'b0; //S
+assign ALUSrc = (opcode == 7'b0010011 || opcode == 7'b0000011 || opcode == 7'b0100011) ? 1'b1 : 1'b0; //I, Load, S
+assign RegWrite = (opcode == 7'b0100011 || opcode == 7'b1100011 || opcode == 7'b1110011) ? 1'b0 : 1'b1; //S, B, EType
 endmodule
