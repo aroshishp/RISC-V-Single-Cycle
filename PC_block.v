@@ -11,6 +11,7 @@ always @(posedge clk) begin
     end else begin
         PC <= PC_NEXT;
     end
+    
 end
 
 endmodule

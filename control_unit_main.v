@@ -11,7 +11,7 @@ module control_unit_main(
     output [1:0] Imm_Src
 );
 
-assign branch = (opcode == 7'b1100011) ? 1'b1 : 1'b0; //B
+assign Branch = (opcode == 7'b1100011) ? 1'b1 : 1'b0; //B
 assign MemRead = (opcode == 7'b0000011) ? 1'b1 : 1'b0; //Load
 assign MemtoReg = (opcode == 7'b0000011) ? 1'b1 : 1'b0; //Load
 
@@ -24,6 +24,11 @@ jump ->
 u type -> 
 
 */
+
+initial begin
+    $monitor("Time: %0t | opcode: %b | Branch: %b | MemRead: %b | MemtoReg: %b | ALUOp: %b | MemWrite: %b | ALUSrc: %b | RegWrite: %b | Imm_Src: %b", 
+             $time, opcode, Branch, MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite, Imm_Src);
+end
 
 assign ALUOp =  (opcode == 7'b0110011) ? 3'b000 : //R
                 (opcode == 7'b0010011) ? 3'b001 : //I

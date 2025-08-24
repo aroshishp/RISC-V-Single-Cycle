@@ -26,6 +26,10 @@ PC_block PC_block (
     .PC(PC_CURR)
 );
 
+initial begin
+    $monitor("Time: %0t | PC_CURR: %h | PC_NEXT: %h", $time, PC_CURR, PC_NEXT);
+end
+
 wire [63:0] PC_NEXT_REG;
 
 PC_Adder PC_Adder_Regular(
@@ -106,6 +110,11 @@ Mux ALU_Mux(
     .c(ALU_B)
 );
 
+initial begin
+    $monitor("Time: %0t | READ_DATA1: %h | READ_DATA2: %h | ALU_B: %h | ALUSrc: %b", $time, READ_DATA1, READ_DATA2, ALU_B, ALUSrc);
+    $monitor("Time: %0t | PC_CURR: %h | PC_NEXT: %h", $time, PC_CURR, PC_NEXT);
+end
+
 wire [63:0] ALU_OUT;
 wire ALU_ZERO;
 wire ALU_CARRY;
@@ -145,6 +154,7 @@ Mux PC_Update_Mux(
     .a(PC_NEXT_REG),
     .b(PC_NEXT_IMM),
     .s(Branch & ALU_ZERO),
+    // .s(1'b0),
     .c(PC_NEXT)
 );
 

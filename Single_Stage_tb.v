@@ -1,6 +1,6 @@
 module Single_Stage_tb();
 
-    reg clk = 1'b1;
+    reg clk = 1'b0;
     reg rst;
 
     Single_Stage_Top Single_Stage_Top(
@@ -20,10 +20,10 @@ module Single_Stage_tb();
 
     initial begin
         rst = 1'b1;
-        #150;
+        #500;
 
         rst = 1'b0;
-        #500;
+        #1000;
         $finish;
     end
 endmodule

@@ -43,6 +43,11 @@ module ALU (
         endcase
     end
 
+    initial begin
+        $monitor("Time: %0t | A: %h | B: %h | ALU_Sel: %b | ALU_Out: %h | Carry_out: %b | zero: %b", 
+                 $time, A, B, ALU_Sel, ALU_Out, Carry_out, zero);
+    end
+
 endmodule
 
 // module ALU_testbench;
